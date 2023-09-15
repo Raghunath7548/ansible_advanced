@@ -9,6 +9,6 @@
     ansible.builtin.command: adduser sivakumar
     when: ansible_facts['distribution'] == "Ubuntu"
 
-   - name: add user centos
+  - name: add user centos
     ansible.builtin.command: useradd sivakumar
     when: ansible_facts['distribution'] == "Centos"

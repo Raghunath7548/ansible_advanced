@@ -37,10 +37,14 @@
     register: directory
 
   - name: print the directory stats
+    tags:
+    - installation
     ansible.builtin.debug:
       msg: "output: {{directory}}"
 
   - when: directory.stat.exists == False
+    tags:
+    - installation
     name: create /app directory
     ansible.builtin.file:
       path: /app
@@ -54,6 +58,8 @@
       dest: /tmp
 
   - name: extract catalogue artifact
+    tags:
+    - deployment
     ansible.builtin.unarchive:
       src: /tmp/catalogue.zip
       dest: /app
@@ -74,6 +80,8 @@
       dest: /etc/systemd/system/catalogue.service
 
   - name: deamon reload
+    tags:
+    - installation
     ansible.builtin.systemd:
       daemon_reload: true
 
@@ -94,7 +102,7 @@
   - name: load catalogue data
     tags:
     - installation
-    ansible.builtin.command: mongo --host mongodb.devopsjoin.online < /app/schema/catalogue.js
+    ansible.builtin.command: mongo --host mongodb.joindevops.online < /app/schema/catalogue.js
 
   - name: restart catalogue
     tags:
@@ -103,7 +111,3 @@
       name: catalogue
       state: restarted
       enabled: true
-
-  
-
-  
